@@ -56,7 +56,10 @@ export function MessageInput() {
     <div className="flex flex-col gap-2 mb-6">
       <textarea
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          setText(e.target.value);
+          if (error) setError(null);
+        }}
         onKeyDown={handleKeyDown}
         placeholder="Say something anonymously..."
         className="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 resize-none h-24"

@@ -1,11 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { MAX_MESSAGE_LENGTH, MessageRecord, CreateMessageResponse, ApiError } from '@anon-chat/shared';
-import { authMiddleware } from '../middleware/auth';
 import { db } from '../firebase-admin';
 
 const router = Router();
 
-router.post('/', authMiddleware, async (req: Request, res: Response): Promise<void> => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { text } = req.body;
 
@@ -21,8 +20,8 @@ router.post('/', authMiddleware, async (req: Request, res: Response): Promise<vo
       return;
     }
 
-    // Sanitization: Strip HTML tags
-    const sanitizedText = trimmed.replace(/<[^>]*>?/gm, '');
+    // Sanitization: Strip HTML tags requiring closing > to preserve expressions like 'a < b'
+    const sanitizedText = trimmed.replace(/<[^>]*>/g, '').trim();
 
     if (sanitizedText.length === 0) {
       res.status(400).json({ error: 'Text is empty after sanitization' } as ApiError);

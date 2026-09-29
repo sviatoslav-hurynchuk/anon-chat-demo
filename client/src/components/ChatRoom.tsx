@@ -5,7 +5,7 @@ import { MessageList } from './MessageList';
 
 export function ChatRoom() {
   const { user, loading: authLoading, error: authError } = useAuth();
-  const { messages, loading: messagesLoading, error: messagesError } = useMessages();
+  const { messages, loading: messagesLoading, error: messagesError } = useMessages(Boolean(user));
 
   if (authLoading) {
     return (

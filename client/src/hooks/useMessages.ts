@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { ref, onValue, query, orderByChild } from 'firebase/database';
+import { ref, onValue, query, orderByChild, limitToLast } from 'firebase/database';
 import { db } from '../firebase';
 import type { Message } from '@anon-chat/shared';
 
-export function useMessages() {
+export function useMessages(enabled = true) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const messagesRef = query(ref(db, 'messages'), orderByChild('createdAt'));
+    if (!enabled) return;
+
+    const messagesRef = query(ref(db, 'messages'), orderByChild('createdAt'), limitToLast(100));
     
     const unsubscribe = onValue(messagesRef, (snapshot) => {
       try {
@@ -35,7 +37,7 @@ export function useMessages() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [enabled]);
 
   return { messages, loading, error };
 }

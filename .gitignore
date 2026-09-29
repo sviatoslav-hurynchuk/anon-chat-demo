@@ -11,4 +11,5 @@ service-account.json
 **/service-account*.json
 *service*.json
 *sevice*.json
+.vite/
 
