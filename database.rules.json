@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "messages": {
+      ".read": "auth != null",
+      ".write": false,
+      ".indexOn": ["createdAt"]
+    }
+  }
+}

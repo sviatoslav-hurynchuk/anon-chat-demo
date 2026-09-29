@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+.firebase/
+.idea/
+*.tsbuildinfo
+service-account.json
+**/service-account*.json
