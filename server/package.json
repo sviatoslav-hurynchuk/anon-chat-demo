@@ -1,0 +1,25 @@
+{
+  "name": "@anon-chat/server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@anon-chat/shared": "*",
+    "cors": "^2.8.5",
+    "dotenv": "^18.0.4",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.0"
+  }
+}
