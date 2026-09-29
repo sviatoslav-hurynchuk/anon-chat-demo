@@ -9,3 +9,6 @@ dist/
 *.tsbuildinfo
 service-account.json
 **/service-account*.json
+*service*.json
+*sevice*.json
+

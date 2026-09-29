@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
+import { signInAnonymously, onAuthStateChanged, setPersistence, browserSessionPersistence, User } from 'firebase/auth';
 import { auth } from '../firebase';
 
 export function useAuth() {
@@ -8,14 +8,20 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    signInAnonymously(auth).catch((err) => {
-      console.error('Anonymous auth failed:', err);
-      setError(err.message);
-    });
-
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        setLoading(false);
+      } else {
+        try {
+          await setPersistence(auth, browserSessionPersistence);
+          await signInAnonymously(auth);
+        } catch (err: any) {
+          console.error('Anonymous auth failed:', err);
+          setError(err.message);
+          setLoading(false);
+        }
+      }
     });
 
     return () => unsubscribe();

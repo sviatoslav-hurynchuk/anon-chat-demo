@@ -14,6 +14,5 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-// Ensure each tab gets a new anonymous session
-setPersistence(auth, browserSessionPersistence);
 export const db = getDatabase(app);
+
